@@ -30,5 +30,5 @@
 - name: Create config
   include_tasks: "config.yml"
 
-#- name: Create goquorum service
-#  include_tasks: "service.yml"
+- name: Create goquorum service
+  include_tasks: "service.yml"
