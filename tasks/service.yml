@@ -1,18 +1,18 @@
 ---
-- name: Create Geth systemd service
+- name: Create goquorum systemd service
   template:
-    src: "{{ geth_systemd_template }}"
-    dest: "{{ geth_systemd_dir }}/geth.service"
+    src: "{{ goquorum_systemd_template }}"
+    dest: "{{ goquorum_systemd_dir }}/goquorum.service"
     owner: "root"
     group: "root"
   become: true
-  when: ( geth_managed_service ) and
+  when: ( goquorum_managed_service ) and
     ( ansible_os_family != "Darwin" )
   register: systemd_file
 
 - name: Set updated optionally to trigger a systemd restart at the end
   set_fact:
-    geth_state_updates: "{{ geth_state_updates + ['geth.systemd_file'] }}"
+    goquorum_state_updates: "{{ goquorum_state_updates + ['goquorum.systemd_file'] }}"
   when: systemd_file is changed
 
 - name: Reload systemd to reread configs
@@ -21,21 +21,21 @@
   become: true
   when: systemd_file is changed
 
-- name: Enable and start Geth service
+- name: Enable and start goquorum service
   systemd:
-    name: geth
-    state: "{{ geth_systemd_state }}"
+    name: goquorum
+    state: "{{ goquorum_systemd_state }}"
     enabled: true
   become: true
-  when: ( geth_state_updates|length > 0 ) and
-    ( geth_managed_service ) and
+  when: ( goquorum_state_updates|length > 0 ) and
+    ( goquorum_managed_service ) and
     ( ansible_os_family != "Darwin" )
 
 # Darwin only
 - name: Create Launchd service plist for Darwin
   template:
-    src: "{{ geth_launchd_template }}"
-    dest: "{{ geth_launchd_dir }}/org.ethereum.geth.plist"
+    src: "{{ goquorum_launchd_template }}"
+    dest: "{{ goquorum_launchd_dir }}/org.ethereum.goquorum.plist"
   become: true
   when: ( ansible_os_family == "Darwin" ) and
-    ( geth_managed_service )
+    ( goquorum_managed_service )

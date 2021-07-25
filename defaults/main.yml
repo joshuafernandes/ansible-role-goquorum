@@ -6,7 +6,7 @@ goquorum_group: "{{ goquorum_user }}"
 goquorum_architecture: "linux"
 
 # Version to install
-goquorum_download_url: "https://artifacts.consensys.net/public/go-quorum/raw/versions/{{ goquorum_version }}/geth-{{ goquorum_version }}_{{ goquorum_architecture }}_amd64.tar.gz"
+goquorum_download_url: "https://artifacts.consensys.net/public/go-quorum/raw/versions/{{ goquorum_version }}/goquorum-{{ goquorum_version }}_{{ goquorum_architecture }}_amd64.tar.gz"
 
 # Building from source - TODO
 goquorum_build_from_source: false

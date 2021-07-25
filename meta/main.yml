@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: ethereum
-  role_name: geth
+  role_name: goquorum
   description: Geth is an ethereum client
   company: PegaSysEng
   license: license (Apache)
@@ -28,7 +28,7 @@ galaxy_info:
       versions:
         - all
   galaxy_tags:
-    - geth
+    - goquorum
     - blockchain
     - ethereum
     - enterprise

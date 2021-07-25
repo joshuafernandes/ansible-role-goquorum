@@ -1,4 +1,4 @@
-{{ geth_log_dir }}/*.log {
+{{ goquorum_log_dir }}/*.log {
     rotate 14
     notifempty
     missingok
