@@ -1,0 +1,43 @@
+---
+#
+- name: Put into custom format for goquorum's config.toml
+  set_fact:
+    goquorum_nat_ip: "{{goquorum_nat_prefix + goquorum_host_ip.split('.') }}"
+
+- name: Create configuration directory
+  file:
+    path: "{{ goquorum_config_dir }}"
+    state: directory
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+    recurse: yes
+  become: true
+
+- name: Generate config file
+  template:
+    src: "{{ goquorum_config_template }}"
+    dest: "{{ goquorum_config_dir }}/config.toml"
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+    mode: 0644
+  become: true
+  register: config_toml
+
+- name: Set updated optionally to trigger a systemd restart at the end
+  set_fact:
+    goquorum_state_updates: "{{ goquorum_state_updates + ['goquorum.config_toml'] }}"
+  when: config_toml is changed
+
+- name: Create data directory
+  file:
+    path: "{{ goquorum_data_dir }}"
+    state: directory
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+    recurse: yes
+  become: true
+
+- name: Init the database
+  command: "{{goquorum_current_dir}}/goquorum init --datadir {{goquorum_data_dir}} {{goquorum_genesis_path}}"
+  when: goquorum_init_database
+

@@ -1,0 +1,83 @@
+---
+
+# User and group
+goquorum_user: goquorum
+goquorum_group: "{{ goquorum_user }}"
+goquorum_architecture: "linux"
+
+# Version to install
+goquorum_download_url: "https://artifacts.consensys.net/public/go-quorum/raw/versions/{{ goquorum_version }}/geth-{{ goquorum_version }}_{{ goquorum_architecture }}_amd64.tar.gz"
+
+# Building from source - TODO
+goquorum_build_from_source: false
+goquorum_git_repo: "https://github.com/ConsenSys/quorum.git"
+goquorum_git_commit: "master"
+
+# Directory paths
+goquorum_base_dir: "/opt/goquorum"
+goquorum_install_dir: "{{ goquorum_base_dir }}/goquorum-{{ goquorum_version }}"
+goquorum_current_dir: "{{ goquorum_base_dir }}/current"
+goquorum_node_private_key_file: ""
+goquorum_config_dir: "/etc/goquorum"
+goquorum_config_template: "config.toml.j2"
+goquorum_data_dir: "{{ goquorum_base_dir }}/data"
+goquorum_log_dir: "/var/log/goquorum"
+goquorum_log4j_config_file: ""
+goquorum_profile_file: "/etc/profile.d/goquorum-path.sh"
+
+# Managed service config
+goquorum_managed_service: true
+goquorum_systemd_state: restarted
+goquorum_systemd_template: goqourum.service.j2
+goquorum_systemd_dir: /etc/systemd/system
+goquorum_launchd_template: org.ethereum.goquorum.plist.j2
+goquorum_launchd_dir: /Library/LaunchAgents
+
+
+# do this once only at the first bootstrap
+goquorum_init_database: False
+# goquorum config
+goquorum_network_id: 1
+goquorum_host_ip: ""
+goquorum_default_ip: "127.0.0.1"
+goquorum_network: mainnet
+goquorum_sync_mode: FAST
+goquorum_log_level: INFO
+goquorum_p2p_port: 30303
+goquorum_min_gas: 1000
+goquorum_miner_extra_data: ""
+goquorum_miner_coinbase: 0x
+goquorum_miner_enabled: "false"
+goquorum_rpc_http_enabled: "true"
+goquorum_rpc_http_host: 0.0.0.0
+goquorum_rpc_http_port: 8545
+goquorum_rpc_http_api: ["ADMIN", "DEBUG", "NET", "ETH", "TRACE", "WEB3", "PLUGINS"]
+goquorum_rpc_http_cors_origins: ["*"]
+goquorum_rpc_ws_api: ["NET", "ETH", "WEB3"]
+goquorum_rpc_ws_enabled: "true"
+goquorum_rpc_ws_host: 0.0.0.0
+goquorum_rpc_ws_port: 8546
+goquorum_graphql_http_enabled: "true"
+goquorum_graphql_http_host: 0.0.0.0
+goquorum_graphql_http_port: 8547
+goquorum_graphql_http_cors_origins: ["*"]
+goquorum_metrics_host: 0.0.0.0
+goquorum_metrics_port: 9545
+goquorum_bootnodes: []
+goquorum_host_whitelist: ["*"]
+goquorum_cmdline_args: []
+goquorum_env_opts: []
+
+# using goquorum;s --nat extip:w.x.y.z
+goquorum_nat_prefix: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255]
+goquorum_nat_ip: []
+
+# privacy
+goquorum_privacy_enabled: "false"
+goquorum_privacy_url: "http://127.0.0.1:8888"
+goquorum_privacy_public_key_file: ""
+goquorum_privacy_marker_tx_signing_key_file: ""
+
+# internal state to maintain idempotency
+goquorum_state_updates: []
+

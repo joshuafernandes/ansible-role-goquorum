@@ -1,0 +1,80 @@
+---
+- name: Ensure goquorum group exists
+  group:
+    name: "{{ goquorum_group }}"
+    state: present
+  become: true
+
+- name: Create goquorum user
+  user:
+    comment:  goquorum client user
+    name: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+  become: true
+
+- name: Create base directory
+  file:
+    path: "{{ goquorum_base_dir }}"
+    state: directory
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+  become: true
+
+- name: Create install directory
+  file:
+    path: "{{ goquorum_install_dir }}"
+    state: directory
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+  become: true
+
+- name: Create log directory
+  file:
+    path: "{{ goquorum_log_dir }}"
+    state: directory
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+  become: true
+
+- name: Setup logrotate
+  template:
+    src: "logrotate/goquorum"
+    dest: "/etc/logrotate.d/goquorum"
+  become: true
+
+- name: Extract goquorum source to install directory
+  unarchive:
+    src: "{{ goquorum_download_url }}"
+    remote_src: "{{ true }}"
+    dest: "{{ goquorum_install_dir }}"
+    owner: "{{ goquorum_user }}"
+    group: "{{ goquorum_group }}"
+    mode: '0775'
+    extra_opts:
+      - --strip-components
+      - '1'
+  become: true
+  register: extract_src
+
+- name: Set updated optionally to trigger a systemd restart at the end
+  set_fact:
+    goquorum_state_updates: "{{ goquorum_state_updates + ['goquorum.install_dir'] }}"
+  when: extract_src is changed
+
+# will throw error the first time you install since the service isnt present
+- name: Stop goquorum systemd service if running
+  service:
+    name: goquorum
+    state: stopped
+  when: ( extract_src is changed ) and
+    ( goquorum_managed_service ) and
+    ( ansible_os_family != "Darwin" )
+  become: true
+  ignore_errors: true
+
+- name: Create a symlink to current
+  file:
+    src: "{{ goquorum_install_dir }}/"
+    dest: "{{ goquorum_current_dir }}"
+    state: link
+  become: true

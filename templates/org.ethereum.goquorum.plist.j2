@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Label</key>
+		<string>org.ethereum.goquorum</string>
+		<key>Program</key>
+		<string>"{{ goquorum_install_dir }}/goquorum"</string>
+		<key>ProgramArguments</key>
+		<array>
+			<string>--config</string>
+			<string>"{{ goquorum_config_dir }}/config.toml"</string>
+		</array>
+		<key>RunAtLoad</key>
+		<true/>
+	</dict>
+</plist>
