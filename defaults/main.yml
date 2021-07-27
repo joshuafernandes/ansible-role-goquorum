@@ -1,17 +1,14 @@
 ---
-
 # User and group
 goquorum_user: goquorum
 goquorum_group: "{{ goquorum_user }}"
 goquorum_architecture: "linux"
+goquorum_default_ip: "127.0.0.1"
+# default to use the private ip in cloud, set this to true to use the public ip
+goquorum_discovery_public_ip: false
 
 # Version to install
 goquorum_download_url: "https://artifacts.consensys.net/public/go-quorum/raw/versions/{{ goquorum_version }}/geth_{{ goquorum_version }}_{{ goquorum_architecture }}_amd64.tar.gz"
-
-# Building from source - TODO
-goquorum_build_from_source: false
-goquorum_git_repo: "https://github.com/ConsenSys/quorum.git"
-goquorum_git_commit: "master"
 
 # Directory paths
 goquorum_base_dir: "/opt/goquorum"
@@ -22,7 +19,7 @@ goquorum_config_dir: "/etc/goquorum"
 goquorum_config_template: "config.toml.j2"
 goquorum_data_dir: "{{ goquorum_base_dir }}/data"
 goquorum_log_dir: "/var/log/goquorum"
-goquorum_log4j_config_file: ""
+goquorum_ipc_file: "{{ goquorum_base_dir }}/goquorum.ipc"
 goquorum_profile_file: "/etc/profile.d/goquorum-path.sh"
 
 # Managed service config
@@ -30,53 +27,66 @@ goquorum_managed_service: true
 goquorum_systemd_state: restarted
 goquorum_systemd_template: goqourum.service.j2
 goquorum_systemd_dir: /etc/systemd/system
-goquorum_launchd_template: org.ethereum.goquorum.plist.j2
-goquorum_launchd_dir: /Library/LaunchAgents
+goquorum_init_database: "false"
 
-
-# do this once only at the first bootstrap
-goquorum_init_database: False
-# goquorum config
+# goquorum config file args
 goquorum_network_id: 1
-goquorum_host_ip: ""
-goquorum_default_ip: "127.0.0.1"
-goquorum_network: mainnet
-goquorum_sync_mode: FAST
-goquorum_log_level: INFO
-goquorum_p2p_port: 30303
-goquorum_min_gas: 1000
-goquorum_miner_extra_data: ""
-goquorum_miner_coinbase: 0x
-goquorum_miner_enabled: "false"
-goquorum_rpc_http_enabled: "true"
-goquorum_rpc_http_host: 0.0.0.0
-goquorum_rpc_http_port: 8545
-goquorum_rpc_http_api: ["ADMIN", "DEBUG", "NET", "ETH", "TRACE", "WEB3", "PLUGINS"]
-goquorum_rpc_http_cors_origins: ["*"]
-goquorum_rpc_ws_api: ["NET", "ETH", "WEB3"]
-goquorum_rpc_ws_enabled: "true"
-goquorum_rpc_ws_host: 0.0.0.0
-goquorum_rpc_ws_port: 8546
-goquorum_graphql_http_enabled: "true"
-goquorum_graphql_http_host: 0.0.0.0
-goquorum_graphql_http_port: 8547
-goquorum_graphql_http_cors_origins: ["*"]
-goquorum_metrics_host: 0.0.0.0
-goquorum_metrics_port: 9545
+goquorum_sync_mode: "full"
+goquourm_gas_price: 0
+goquourm_gas_floor: 700000000
+goquourm_gas_ceil: 800000000
+goquourm_istanbul_request_timeout: 10000
+goquourm_istanbul_block_period: 5
+goquourm_istanbul_epoch: 5
+goquourm_istanbul_ceil2nby3block: 0
+goquorum_node_identity: "GoQuorumNode"
+goquourm_no_usb: "true"
+goquorum_http_enabled: "true"
+goquorum_http_host: "0.0.0.0"
+goquorum_http_port: 8545
+goquorum_http_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "istanbul"]
+goquorum_http_cors_origins: ["*"]
+goquorum_http_virtual_hosts: ["*"]
+goquorum_ws_enabled: "true"
+goquorum_ws_host: "0.0.0.0"
+goquorum_ws_port: 8546
+goquorum_ws_origins: ["*"]
+goquorum_ws_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "istanbul"]
+goquorum_graphql_enabled: "true"
+goquorum_graphql_host: "0.0.0.0"
+goquorum_graphql_port: 8547
+goquorum_graphql_virtual_hosts: ["*"]
+goquorum_enable_node_permissions: "true"
+goquorum_no_discovery: "true"
+goquorum_max_peers: 50
 goquorum_bootnodes: []
-goquorum_host_whitelist: ["*"]
+goquorum_p2p_port: 30303
+
+## CLI args
+# --verbosity # 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail
+goquorum_log_verbosity: 3
+# --mine --minerthreads 1 --emitcheckpoints \
+goquorum_miner_enabled: "false"
+goquorum_miner_threads: "false"
+# --metrics --pprof --pprof.addr 0.0.0.0 --pprof.port 9545 \
+goquorum_metrics_enabled: "true"
+goquorum_metrics_host: "0.0.0.0"
+goquorum_metrics_port: 9545
 goquorum_cmdline_args: []
 goquorum_env_opts: []
+# --nat extip:{{goquorum_host_ip}}
+goquorum_host_ip: ""
+# --ptm.timeout 5 --ptm.url $${QUORUM_PTM_URL} --ptm.http.writebuffersize 4096 --ptm.http.readbuffersize 4096 --ptm.tls.mode off \
+goquorum_ptm_enabled: "false"
+goquorum_ptm_timeout: 5
+goquorum_ptm_url: "http://127.0.0.1:9101"
+goquorum_ptm_http_writebuffersize: 4096
+goquorum_ptm_http_readbuffersize: 4096
+goquorum_ptm_tls_mode: "off"
+# --unlock 0 --password /config/passwords.txt \
+goquorum_unlock: 0
+goquorum_account_password_file: "{{ goquorum_base_dir }}/passwords.txt"
 
-# using goquorum;s --nat extip:w.x.y.z
-goquorum_nat_prefix: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255]
-goquorum_nat_ip: []
-
-# privacy
-goquorum_privacy_enabled: "false"
-goquorum_privacy_url: "http://127.0.0.1:8888"
-goquorum_privacy_public_key_file: ""
-goquorum_privacy_marker_tx_signing_key_file: ""
 
 # internal state to maintain idempotency
 goquorum_state_updates: []

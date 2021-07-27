@@ -12,23 +12,23 @@
     goquorum_architecture: "darwin"
   when: ansible_os_family == "Darwin"
 
+- name: Currently architecture supported
+  block:
+    - name: Check that we are running on linux
+      fail:
+        msg: Please run this on linux, OSX is not yet supported
+      when: ansible_os_family == "Darwin"
+
 - name: Install goquorum
   include_tasks: "install.yml"
-#
-#- name: Run OS specific installation tasks
-#  include_tasks: "{{ item }}"
-#  with_first_found:
-#    - files:
-#        - "{{ ansible_distribution|lower }}/install.yml"
-#        - "{{ ansible_os_family|lower }}/install.yml"
-#      skip: true
 
 - name: Get IP address to bind to if not provided
   include_tasks: "network.yml"
   when: not goquorum_host_ip
 
+# also init's the db
 - name: Create config
   include_tasks: "config.yml"
-
-- name: Create goquorum service
-  include_tasks: "service.yml"
+#
+#- name: Create goquorum service
+#  include_tasks: "service.yml"

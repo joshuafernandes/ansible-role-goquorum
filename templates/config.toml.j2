@@ -1,28 +1,44 @@
 # https://goquorum.ethereum.org/docs/interface/private-network/
+# NOTE: ptm, mining and account settings still need to be via cli args
 
 [Eth]
 NetworkId = {{goquorum_network_id}}
-SyncMode = "fast"
-DiscoveryURLs = ["enrtree://AKA3AM6LPBYEUDMVNU3BSVQJ5AD45Y7YPOHJLEF6W26QOE4VTUDPE@all.mainnet.ethdisco.net"]
+SyncMode = "{{goquorum_sync_mode}}"
+DiscoveryURLs = []
 NoPruning = false
 NoPrefetch = false
 LightPeers = 100
 UltraLightFraction = 75
-DatabaseCache = 512
+DatabaseCache = 768
 DatabaseFreezer = ""
 TrieCleanCache = 256
+TrieCleanCacheJournal = "triecache"
+TrieCleanCacheRejournal = 3600000000000
 TrieDirtyCache = 256
 TrieTimeout = 3600000000000
+SnapshotCache = 0
 EnablePreimageRecording = false
 EWASMInterpreter = ""
 EVMInterpreter = ""
+RPCGasCap = 25000000
+RPCTxFeeCap = 1e+00
 
 [Eth.Miner]
-GasFloor = 8000000
-GasCeil = 8000000
-GasPrice = 1000000000
+GasFloor = {{goquourm_gas_floor}}
+GasCeil = {{goquourm_gas_ceil}}
+GasPrice = {{goquourm_gas_price}}
 Recommit = 3000000000
 Noverify = false
+AllowedFutureBlockTime = 0
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+
+[Shh]
+MaxMessageSize = 1048576
+MinimumAcceptedPOW = 2e-01
+RestrictConnectionBetweenLightClients = true
 
 [Eth.Ethash]
 CacheDir = "ethash"
@@ -34,6 +50,12 @@ DatasetsInMem = 1
 DatasetsOnDisk = 2
 DatasetsLockMmap = false
 PowMode = 0
+
+[Eth.Istanbul]
+RequestTimeout = {{goquourm_istanbul_request_timeout}}
+BlockPeriod = {{goquourm_istanbul_block_period}}
+Epoch = {{goquourm_istanbul_epoch}}
+Ceil2Nby3Block = {{goquourm_istanbul_ceil2nby3block}}
 
 [Eth.TxPool]
 Locals = []
@@ -47,42 +69,41 @@ GlobalSlots = 4096
 AccountQueue = 64
 GlobalQueue = 1024
 Lifetime = 10800000000000
-
-[Eth.GPO]
-Blocks = 20
-Percentile = 60
-
-[Shh]
-MaxMessageSize = 1048576
-MinimumAcceptedPOW = 2e-01
-RestrictConnectionBetweenLightClients = true
+TransactionSizeLimit = 64
+MaxCodeSize = 24
 
 [Node]
+UserIdent = "{{goquorum_node_identity}}"
 DataDir = "{{goquorum_data_dir}}"
-InsecureUnlockAllowed = true
-IPCPath = "goquorum.ipc"
-NoUSB = true
-HTTPHost = "{{goquorum_rpc_http_host}}"
-HTTPPort = {{goquorum_p2p_port}}
-HTTPVirtualHosts = [{{goquorum_rpc_http_cors_origins|map('to_json')|join(',')}}]
-HTTPModules = [{{goquorum_rpc_http_api|map('to_json')|join(',')}}]
+IPCPath = "{{goquorum_ipc_file}}"
+NoUSB = {{goquourm_no_usb|bool|lower}}
+{% if goquorum_http_enabled|bool == True %}
+HTTPHost = "{{goquorum_http_host}}"
+HTTPPort = {{goquorum_http_port}}
+HTTPCors = [{{goquorum_http_cors_origins|map('to_json')|join(',')}}]
+HTTPVirtualHosts = [{{goquorum_http_virtual_hosts|map('to_json')|join(',')}}]
+HTTPModules = [{{goquorum_http_api|map('to_json')|join(',')}}]
+{% endif %}
+{% if goquorum_ws_enabled|bool == True %}
 WSHost = "{{goquorum_rpc_ws_host}}"
 WSPort = {{goquorum_rpc_ws_port}}
-WSModules = [{{goquorum_rpc_http_api|map('to_json')|join(',')}}]
-GraphQLHost = "{{goquorum_graphql_http_host}}"
-GraphQLPort = {{goquorum_graphql_http_port}}
-GraphQLVirtualHosts = [{{goquorum_graphql_http_cors_origins|map('to_json')|join(',')}}]
+WSOrigins = [{{goquorum_ws_origins|map('to_json')|join(',')}}]
+WSModules = [{{goquorum_ws_api|map('to_json')|join(',')}}]
+{% endif %}
+{% if goquorum_graphql_enabled|bool == True %}
+GraphQLHost = "{{goquorum_graphql_host}}"
+GraphQLPort = {{goquorum_graphql_port}}
+GraphQLVirtualHosts = [{{goquorum_graphql_virtual_hosts|map('to_json')|join(',')}}]
+{% endif %}
+EnableNodePermission = {{goquorum_enable_node_permissions|bool|lower}}
 
 [Node.P2P]
-MaxPeers = 50
-NoDiscovery = false
+MaxPeers = {{goquorum_max_peers}}
+NoDiscovery = {{goquorum_no_discovery|bool|lower}}
 BootstrapNodes = [{{goquorum_bootnodes|map('to_json')|join(',')}}]
 BootstrapNodesV5 = [{{goquorum_bootnodes|map('to_json')|join(',')}}]
-StaticNodes = []
-TrustedNodes = []
 ListenAddr = ":{{goquorum_p2p_port}}"
 EnableMsgEvents = false
-#NAT = [{{goquorum_nat_ip|map('to_json')|join(', ')|regex_replace('"','')}}]
 
 [Node.HTTPTimeouts]
 ReadTimeout = 30000000000

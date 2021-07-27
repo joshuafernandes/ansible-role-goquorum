@@ -31,11 +31,3 @@
     ( goquorum_managed_service ) and
     ( ansible_os_family != "Darwin" )
 
-# Darwin only
-- name: Create Launchd service plist for Darwin
-  template:
-    src: "{{ goquorum_launchd_template }}"
-    dest: "{{ goquorum_launchd_dir }}/org.ethereum.goquorum.plist"
-  become: true
-  when: ( ansible_os_family == "Darwin" ) and
-    ( goquorum_managed_service )
