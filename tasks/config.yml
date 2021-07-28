@@ -1,9 +1,5 @@
 ---
 #
-- name: Put into custom format for goquorum's config.toml
-  set_fact:
-    goquorum_nat_ip: "{{goquorum_nat_prefix + goquorum_host_ip.split('.') }}"
-
 - name: Create configuration directory
   file:
     path: "{{ goquorum_config_dir }}"
