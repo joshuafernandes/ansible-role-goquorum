@@ -34,7 +34,7 @@ goquorum_systemd_dir: /etc/systemd/system
 goquorum_init_database: "false"
 
 # goquorum config file args
-goquorum_network_id: 1
+goquorum_network_id: 1337
 goquorum_sync_mode: "full"
 goquourm_gas_price: 0
 goquourm_gas_floor: 700000000
@@ -71,7 +71,7 @@ goquorum_host_ip: ""
 # --verbosity # 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail
 goquorum_log_verbosity: 3
 # --mine --minerthreads 1 --emitcheckpoints \
-goquorum_miner_enabled: "true"
+goquorum_miner_enabled: "false"
 goquorum_miner_threads: 1
 goquorum_miner_etherbase: 0
 # --metrics --pprof --pprof.addr 0.0.0.0 --pprof.port 9545 \
