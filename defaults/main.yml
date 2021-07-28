@@ -5,7 +5,7 @@ goquorum_group: "{{ goquorum_user }}"
 goquorum_architecture: "linux"
 goquorum_env_opts: []
 # default to use the private ip in cloud, set this to true to use the public ip
-goquorum_discovery_public_ip: false
+goquorum_discovery_public_ip: "false"
 goquorum_default_ip: "127.0.0.1"
 # internal state to maintain idempotency
 goquorum_state_updates: []
@@ -24,6 +24,7 @@ goquorum_data_dir: "{{ goquorum_base_dir }}/data"
 goquorum_log_dir: "/var/log/goquorum"
 goquorum_ipc_file: "{{ goquorum_base_dir }}/goquorum.ipc"
 goquorum_profile_file: "/etc/profile.d/goquorum-path.sh"
+goquorum_genesis_path: ""
 
 # Managed service config
 goquorum_managed_service: true
@@ -72,6 +73,7 @@ goquorum_log_verbosity: 3
 # --mine --minerthreads 1 --emitcheckpoints \
 goquorum_miner_enabled: "true"
 goquorum_miner_threads: 1
+goquorum_miner_etherbase: 0
 # --metrics --pprof --pprof.addr 0.0.0.0 --pprof.port 9545 \
 goquorum_metrics_enabled: "true"
 goquorum_metrics_host: "0.0.0.0"

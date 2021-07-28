@@ -18,6 +18,10 @@
       fail:
         msg: Please run this on linux, OSX is not yet supported
       when: ansible_os_family == "Darwin"
+    - name: Check that a valid genesis file path has been provided
+      fail:
+        msg: Please provide a valid path to the genesis file
+      when: goquorum_genesis_path == ""
 
 - name: Install goquorum
   include_tasks: "install.yml"
