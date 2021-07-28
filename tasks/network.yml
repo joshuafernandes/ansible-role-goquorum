@@ -1,7 +1,7 @@
 ---
 - name: Get the default ipv4 address
   set_fact:
-    geth_default_ip: >-
+    goquorum_default_ip: >-
       {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] if
       hostvars[inventory_hostname]['ansible_default_ipv4']['address'] is
       defined else '127.0.0.1' }}
@@ -25,7 +25,7 @@
 
     - name: Set the host ip if we are in AWS
       set_fact:
-        geth_host_ip: "{{ aws_ip_output.content }}"
+        goquorum_host_ip: "{{ aws_ip_output.content }}"
       when: aws_ip_output.status == 200
 
     - name: Check if running on Azure
@@ -42,7 +42,7 @@
 
     - name: Set the host ip if we are in Azure
       set_fact:
-        geth_host_ip: "{{ azure_ip_output.content }}"
+        goquorum_host_ip: "{{ azure_ip_output.content }}"
       when: ( aws_ip_output.status != 200 ) and
         ( azure_ip_output.status == 200 )
 
@@ -61,7 +61,7 @@
 
     - name: Set the host ip if we are in GCP
       set_fact:
-        geth_host_ip: "{{ gcp_ip_output.content }}"
+        goquorum_host_ip: "{{ gcp_ip_output.content }}"
       when: ( aws_ip_output.status != 200 ) and
         ( azure_ip_output.status != 200 ) and
         ( gcp_ip_output.status == 200 )
@@ -71,6 +71,6 @@
 
 - name: Fallback to the ansible default ip
   set_fact:
-    geth_host_ip: "{{ geth_default_ip }}"
-  when: geth_host_ip == ""
+    goquorum_host_ip: "{{ goquorum_default_ip }}"
+  when: goquorum_host_ip == ""
 
