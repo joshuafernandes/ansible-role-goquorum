@@ -3,9 +3,12 @@
 goquorum_user: goquorum
 goquorum_group: "{{ goquorum_user }}"
 goquorum_architecture: "linux"
-goquorum_default_ip: "127.0.0.1"
+goquorum_env_opts: []
 # default to use the private ip in cloud, set this to true to use the public ip
 goquorum_discovery_public_ip: false
+goquorum_default_ip: "127.0.0.1"
+# internal state to maintain idempotency
+goquorum_state_updates: []
 
 # Version to install
 goquorum_download_url: "https://artifacts.consensys.net/public/go-quorum/raw/versions/{{ goquorum_version }}/geth_{{ goquorum_version }}_{{ goquorum_architecture }}_amd64.tar.gz"
@@ -42,13 +45,13 @@ goquourm_istanbul_ceil2nby3block: 0
 goquorum_node_identity: "GoQuorumNode"
 goquourm_no_usb: "true"
 goquorum_http_enabled: "true"
-goquorum_http_host: "0.0.0.0"
+goquorum_http_host: "127.0.0.1"
 goquorum_http_port: 8545
 goquorum_http_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "istanbul"]
 goquorum_http_cors_origins: ["*"]
 goquorum_http_virtual_hosts: ["*"]
 goquorum_ws_enabled: "true"
-goquorum_ws_host: "0.0.0.0"
+goquorum_ws_host: "127.0.0.1"
 goquorum_ws_port: 8546
 goquorum_ws_origins: ["*"]
 goquorum_ws_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "istanbul"]
@@ -62,6 +65,8 @@ goquorum_bootnodes: []
 goquorum_p2p_port: 30303
 
 ## CLI args
+# --nat extip:{{goquorum_host_ip}}
+goquorum_host_ip: ""
 # --verbosity # 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail
 goquorum_log_verbosity: 3
 # --mine --minerthreads 1 --emitcheckpoints \
@@ -72,9 +77,8 @@ goquorum_metrics_enabled: "true"
 goquorum_metrics_host: "0.0.0.0"
 goquorum_metrics_port: 9545
 goquorum_cmdline_args: []
-goquorum_env_opts: []
-# --nat extip:{{goquorum_host_ip}}
-goquorum_host_ip: ""
+# user defined list of cmd line args as a string
+goquorum_user_cmdline_args: ""
 # --ptm.timeout 5 --ptm.url $${QUORUM_PTM_URL} --ptm.http.writebuffersize 4096 --ptm.http.readbuffersize 4096 --ptm.tls.mode off \
 goquorum_ptm_enabled: "false"
 goquorum_ptm_timeout: 5
@@ -84,9 +88,6 @@ goquorum_ptm_http_readbuffersize: 4096
 goquorum_ptm_tls_mode: "off"
 # --unlock 0 --password /config/passwords.txt \
 goquorum_unlock: 0
-goquorum_account_password_file: "{{ goquorum_base_dir }}/passwords.txt"
+goquorum_account_password_file: ""
 
-
-# internal state to maintain idempotency
-goquorum_state_updates: []
 

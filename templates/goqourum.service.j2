@@ -11,7 +11,7 @@ Environment='GETH_OPTS={{goquorum_env_opts|map('to_json')|join(' ')}}'
 {% endif %}
 Type=simple
 {% if goquorum_cmdline_args %}
-ExecStart=/bin/sh -c "{{ goquorum_current_dir }}/geth --config={{ goquorum_config_dir }}/config.toml  --nat extip:{{goquorum_host_ip}} {{goquorum_cmdline_args|map('to_json')|join(' ')|regex_replace('"','')}} >> {{goquorum_log_dir}}/goquorum.log 2>&1"
+ExecStart=/bin/sh -c "{{ goquorum_current_dir }}/geth --config={{ goquorum_config_dir }}/config.toml  --nat extip:{{goquorum_host_ip}} {{goquorum_cmdline_args}} >> {{goquorum_log_dir}}/goquorum.log 2>&1"
 {% else %}
 ExecStart=/bin/sh -c "{{ goquorum_current_dir }}/geth --config={{ goquorum_config_dir }}/config.toml  --nat extip:{{goquorum_host_ip}} >> {{goquorum_log_dir}}/goquorum.log 2>&1"
 {% endif %}

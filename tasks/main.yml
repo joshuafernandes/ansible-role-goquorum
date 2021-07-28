@@ -30,5 +30,8 @@
 - name: Create config
   include_tasks: "config.yml"
 
+- name: Create cmd line args
+  include_tasks: "cmdline.yml"
+
 - name: Create goquorum service
   include_tasks: "service.yml"
