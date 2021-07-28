@@ -52,14 +52,14 @@ goquourm_no_usb: "true"
 goquorum_http_enabled: "true"
 goquorum_http_host: "127.0.0.1"
 goquorum_http_port: 8545
-goquorum_http_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "{{goquorum_consensus}}"]
+goquorum_http_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "{{goquorum_consensus_algorithm}}"]
 goquorum_http_cors_origins: ["*"]
 goquorum_http_virtual_hosts: ["*"]
 goquorum_ws_enabled: "true"
 goquorum_ws_host: "127.0.0.1"
 goquorum_ws_port: 8546
 goquorum_ws_origins: ["*"]
-goquorum_ws_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "{{goquorum_consensus}}"]
+goquorum_ws_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "{{goquorum_consensus_algorithm}}"]
 goquorum_graphql_enabled: "true"
 goquorum_graphql_virtual_hosts: ["*"]
 goquorum_graphql_cors_origins: ["*"]
