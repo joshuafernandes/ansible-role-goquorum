@@ -6,9 +6,6 @@ After=syslog.target network.target
 User={{ goquorum_user }}
 Group={{ goquorum_group }}
 Environment=HOME=/home/{{ goquorum_user }}
-{% if goquorum_log4j_config_file != "" %}
-Environment=LOG4J_CONFIGURATION_FILE={{ goquorum_log4j_config_file }}
-{% endif %}
 {% if goquorum_env_opts %}
 Environment='GETH_OPTS={{goquorum_env_opts|map('to_json')|join(' ')}}'
 {% endif %}
