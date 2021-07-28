@@ -91,7 +91,6 @@ WSOrigins = [{{goquorum_ws_origins|map('to_json')|join(',')}}]
 WSModules = [{{goquorum_ws_api|map('to_json')|join(',')}}]
 {% endif %}
 {% if goquorum_graphql_enabled|bool == True %}
-GraphQLHost = "{{goquorum_graphql_host}}"
 GraphQLPort = {{goquorum_graphql_port}}
 GraphQLVirtualHosts = [{{goquorum_graphql_virtual_hosts|map('to_json')|join(',')}}]
 {% endif %}

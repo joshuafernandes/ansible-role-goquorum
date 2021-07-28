@@ -53,7 +53,6 @@ goquorum_ws_port: 8546
 goquorum_ws_origins: ["*"]
 goquorum_ws_api: ["admin", "db", "eth", "debug", "miner", "net", "shh", "txpool", "personal", "web3", "quorum", "istanbul"]
 goquorum_graphql_enabled: "true"
-goquorum_graphql_host: "0.0.0.0"
 goquorum_graphql_port: 8547
 goquorum_graphql_virtual_hosts: ["*"]
 goquorum_enable_node_permissions: "true"
