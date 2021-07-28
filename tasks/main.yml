@@ -26,9 +26,9 @@
   include_tasks: "network.yml"
   when: not goquorum_host_ip
 
-# also init's the db
+# also init the db
 - name: Create config
   include_tasks: "config.yml"
-#
-#- name: Create goquorum service
-#  include_tasks: "service.yml"
+
+- name: Create goquorum service
+  include_tasks: "service.yml"

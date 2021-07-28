@@ -5,9 +5,12 @@
       {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] if
       hostvars[inventory_hostname]['ansible_default_ipv4']['address'] is
       defined else '127.0.0.1' }}
-    geth_aws_ip: ""
-    geth_gcp_ip: ""
-    geth_azure_ip: ""
+    aws_ip_output:
+      status: 0
+    gcp_ip_output:
+      status: 0
+    azure_ip_output:
+      status: 0
 
 - name: Use the public ip if discovery is set to use public
   block:
