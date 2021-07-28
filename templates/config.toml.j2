@@ -91,8 +91,8 @@ WSOrigins = [{{goquorum_ws_origins|map('to_json')|join(',')}}]
 WSModules = [{{goquorum_ws_api|map('to_json')|join(',')}}]
 {% endif %}
 {% if goquorum_graphql_enabled|bool == True %}
-GraphQLPort = {{goquorum_graphql_port}}
 GraphQLVirtualHosts = [{{goquorum_graphql_virtual_hosts|map('to_json')|join(',')}}]
+GraphQLCors = [{{goquorum_graphql_cors_origins|map('to_json')|join(',')}}]
 {% endif %}
 EnableNodePermission = {{goquorum_enable_node_permissions|bool|lower}}
 
