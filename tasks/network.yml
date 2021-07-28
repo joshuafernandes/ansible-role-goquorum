@@ -64,7 +64,7 @@
         geth_host_ip: "{{ gcp_ip_output.content }}"
       when: ( aws_ip_output.status != 200 ) and
         ( azure_ip_output.status != 200 ) and
-        ( gcp_ip_output == 200 )
+        ( gcp_ip_output.status == 200 )
   when: goquorum_discovery_public_ip|bool == True
   ignore_errors: yes
 
@@ -74,5 +74,5 @@
     geth_host_ip: "{{ geth_default_ip }}"
   when: ( aws_ip_output.status != 200 ) and
     ( azure_ip_output.status != 200 ) and
-    ( gcp_ip_output != 200 )
+    ( gcp_ip_output.status != 200 )
 
