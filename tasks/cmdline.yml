@@ -31,6 +31,23 @@
       --miner.etherbase {{goquorum_miner_etherbase}}
   when: goquorum_miner_enabled|bool == True
 
+- name: Add consensus algorithm - raft to the cmdline_args
+  set_fact:
+    goquorum_cmdline_args: >
+      {{goquorum_cmdline_args}}
+      --raft
+      --raftport {{goquorum_raft_port}}
+      --raftblocktime {{goquorum_raft_block_time}}
+      --raftdnsenable {{goquorum_raft_dns_enable}}
+  when: goquorum_consensus_algorithm == "raft"
+
+- name: Add consensus algorithm - istanbul to the cmdline_args
+  set_fact:
+    goquorum_cmdline_args: >
+      {{goquorum_cmdline_args}}
+      --istanbul.blockperiod {{goquourm_istanbul_block_period}}
+  when: goquorum_consensus_algorithm == "istanbul"
+
 - name: Add ptm to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >

@@ -49,6 +49,13 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `goquorum_genesis_path` | "" | The path to the genesis file |
 | `goquorum_network_id` | 1337 | The id of the network, also specified in the genesis file |
 | `goquorum_sync_mode` | full | Specifies the synchronization mode. Other values are 'fast' |
+| `goquorum_consensus_algorithm` | istanbul | Specifies the consensus_algorithm to use. Other values are 'raft' |
+| `goquourm_istanbul_block_period` | 5 | Default minimum difference between two consecutive block's timestamps in seconds |
+| `goquourm_istanbul_request_timeout` | 10000 | Timeout for each Istanbul round in milliseconds |
+| `goquourm_istanbul_ceil2nby3block` | 0 | The [ceil2Nby3Block](https://docs.goquorum.consensys.net/en/latest/Reference/IBFTParameters/#ceil2nby3block) sets the block number from which to use an updated formula for calculating the number of faulty nodes. T |
+| `goquorum_raft_block_time` | 50 | Amount of time between raft block creations in milliseconds |
+| `goquorum_raft_port` | 50400 | The port to bind for the raft transport |
+| `goquorum_raft_dns_enable` | true | Enable DNS resolution of peers |
 | `goquorum_log_verbosity` | 3 | The log level to use. Other log levels are 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail |
 | `goquorum_miner_enabled` | false | Enables mining when the node is started |
 | `goquorum_miner_threads` | 1 | Number of CPU threads to use for mining |
@@ -63,11 +70,11 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `goquorum_http_enabled` | true | Enabled the HTTP JSON-RPC service |
 | `goquorum_http_host` | 127.0.0.1 | Specifies the host on which HTTP JSON-RPC listens |
 | `goquorum_http_port` | 8545 | Specifies the port on which HTTP JSON-RPC listens |
-| `goquorum_http_api` | ["admin","db","eth","debug","miner","net","shh","txpool","personal","web3","quorum","istanbul"] | Comma-separated APIs to enable on the HTTP JSON-RPC channel. When you use this option, the `goquorum_rpc_http_enabled` option must also be enabled |
+| `goquorum_http_api` | ["admin","db","eth","debug","miner","net","shh","txpool","personal","web3","quorum","{{goquorum_consensus_algorithm}}"] | Comma-separated APIs to enable on the HTTP JSON-RPC channel. When you use this option, the `goquorum_rpc_http_enabled` option must also be enabled |
 | `goquorum_http_cors_origins` | ["all"] | Comma separated list of domains from which to accept cross origin requests |
 | `goquorum_http_virtual_hosts` | ["all"] | Comma separated list of virtual hostnames from which to accept requests |
 | `goquorum_ws_enabled` | true | Enabled the WebSockets service |
-| `goquorum_ws_api` | ["admin","db","eth","debug","miner","net","shh","txpool","personal","web3","quorum","istanbul"] | Comma-separated APIs to enable on the HTTP JSON-RPC channel. When you use this option, the `goquorum_rpc_ws_enabled` option must also be enabled |
+| `goquorum_ws_api` | ["admin","db","eth","debug","miner","net","shh","txpool","personal","web3","quorum","{{goquorum_consensus_algorithm}}"] | Comma-separated APIs to enable on the HTTP JSON-RPC channel. When you use this option, the `goquorum_rpc_ws_enabled` option must also be enabled |
 | `goquorum_ws_host` | 0.0.0.0 | Specifies the host on which WebSockets listens |
 | `goquorum_ws_port` | 8546 | Specifies Websockets JSON-RPC listening port (TCP). Port must be exposed appropriately |
 | `goquorum_ws_origins` | ["all"] | Comma separated list of domains from which to accept websockets requests |
@@ -104,6 +111,8 @@ Replace `x.y.z` below with the version you would like to use
   - role: ansible-role-goquorum
     vars:
       goquorum_version: vX.Y.Z
+      goquorum_consensus_algorithm: "istanbul"
+      goquorum_genesis_path: "/path/to/genesis_file"
 ```
 
 Run with ansible-playbook:
