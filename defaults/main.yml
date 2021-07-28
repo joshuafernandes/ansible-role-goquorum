@@ -70,8 +70,8 @@ goquorum_host_ip: ""
 # --verbosity # 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail
 goquorum_log_verbosity: 3
 # --mine --minerthreads 1 --emitcheckpoints \
-goquorum_miner_enabled: "false"
-goquorum_miner_threads: "false"
+goquorum_miner_enabled: "true"
+goquorum_miner_threads: 1
 # --metrics --pprof --pprof.addr 0.0.0.0 --pprof.port 9545 \
 goquorum_metrics_enabled: "true"
 goquorum_metrics_host: "0.0.0.0"

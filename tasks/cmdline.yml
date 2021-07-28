@@ -28,7 +28,7 @@
       --mine
       --emitcheckpoints
       minerthreads {{ goquorum_miner_threads}}
-  when: goquorum_miner_enabled != ""
+  when: goquorum_miner_enabled|bool == True
 
 - name: Add ptm to the cmdline_args
   set_fact:
@@ -55,6 +55,10 @@
       {{goquorum_cmdline_args}}
       {{goquorum_user_cmdline_args}}
   when: goquorum_user_cmdline_args != ""
+
+- name: Sanitize cmdline_args
+  set_fact:
+    goquorum_cmdline_args: "{{goquorum_cmdline_args | replace('\n', '')}}"
 
 - name: Show cmdline_args
   debug:
