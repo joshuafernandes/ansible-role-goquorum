@@ -85,8 +85,8 @@ HTTPVirtualHosts = [{{goquorum_http_virtual_hosts|map('to_json')|join(',')}}]
 HTTPModules = [{{goquorum_http_api|map('to_json')|join(',')}}]
 {% endif %}
 {% if goquorum_ws_enabled|bool == True %}
-WSHost = "{{goquorum_rpc_ws_host}}"
-WSPort = {{goquorum_rpc_ws_port}}
+WSHost = "{{goquorum_ws_host}}"
+WSPort = {{goquorum_ws_port}}
 WSOrigins = [{{goquorum_ws_origins|map('to_json')|join(',')}}]
 WSModules = [{{goquorum_ws_api|map('to_json')|join(',')}}]
 {% endif %}
