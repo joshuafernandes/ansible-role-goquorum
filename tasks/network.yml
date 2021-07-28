@@ -65,25 +65,12 @@
       when: ( aws_ip_output.status != 200 ) and
         ( azure_ip_output.status != 200 ) and
         ( gcp_ip_output.status == 200 )
-  when: goquorum_discovery_public_ip|bool == True
+  when: ( goquorum_discovery_public_ip|bool == True ) and
+    ( geth_host_ip == "" )
   ignore_errors: yes
-
-- name: debug
-  debug:
-    var: aws_ip_output
-
-- name: debug
-  debug:
-    var: azure_ip_output
-
-- name: debug
-  debug:
-    var: gcp_ip_output
 
 - name: Fallback to the ansible default ip
   set_fact:
     geth_host_ip: "{{ geth_default_ip }}"
-  when: ( aws_ip_output.status != 200 ) and
-    ( azure_ip_output.status != 200 ) and
-    ( gcp_ip_output.status != 200 )
+  when: geth_host_ip == ""
 
