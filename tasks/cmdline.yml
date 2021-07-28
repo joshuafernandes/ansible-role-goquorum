@@ -2,58 +2,58 @@
 - name: Add logging to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "--verbosity {{goquorum_log_verbosity}}"
+      {{goquorum_cmdline_args}}
+      --verbosity {{goquorum_log_verbosity}}
 
 - name: Add nodekey to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "--nodekey {{goquorum_node_private_key_file}}"
+      {{goquorum_cmdline_args}}
+      --nodekey {{goquorum_node_private_key_file}}
   when: goquorum_node_private_key_file != ""
 
 - name: Add metrics to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "--metrics --pprof"
-      "--pprof.addr {{ goquorum_metrics_host}}"
-      "--pprof.port {{ goquorum_metrics_port}}"
+      {{goquorum_cmdline_args}}
+      --metrics --pprof
+      --pprof.addr {{ goquorum_metrics_host}}
+      --pprof.port {{ goquorum_metrics_port}}
   when: goquorum_metrics_enabled|bool == True
 
 - name: Add miner to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "--mine"
-      "--emitcheckpoints"
-      "minerthreads {{ goquorum_miner_threads}}"
+      {{goquorum_cmdline_args}}
+      --mine
+      --emitcheckpoints
+      minerthreads {{ goquorum_miner_threads}}
   when: goquorum_miner_enabled != ""
 
 - name: Add ptm to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "--goquorum_ptm_timeout {{goquorum_ptm_timeout}}"
-      "--goquorum_ptm_url {{goquorum_ptm_url}}"
-      "--goquorum_ptm_http_writebuffersize {{goquorum_ptm_http_writebuffersize}}"
-      "--goquorum_ptm_http_readbuffersize {{goquorum_ptm_http_readbuffersize}}"
-      "--goquorum_ptm_tls_mode {{goquorum_ptm_tls_mode}}"
+      {{goquorum_cmdline_args}}
+      --goquorum_ptm_timeout {{goquorum_ptm_timeout}}
+      --goquorum_ptm_url {{goquorum_ptm_url}}
+      --goquorum_ptm_http_writebuffersize {{goquorum_ptm_http_writebuffersize}}
+      --goquorum_ptm_http_readbuffersize {{goquorum_ptm_http_readbuffersize}}
+      --goquorum_ptm_tls_mode {{goquorum_ptm_tls_mode}}
   when: goquorum_ptm_enabled|bool == True
 
 - name: Add accounts to the cmdline_args
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "--goquorum_unlock {{goquorum_unlock}}"
-      "--goquorum_account_password_file {{goquorum_account_password_file}}"
+      {{goquorum_cmdline_args}}
+      --goquorum_unlock {{goquorum_unlock}}
+      --goquorum_account_password_file {{goquorum_account_password_file}}
   when: goquorum_account_password_file != ""
 
 - name: Add custom cmdline_args to the list
   set_fact:
     goquorum_cmdline_args: >
-      "{{goquorum_cmdline_args}}"
-      "{{goquorum_user_cmdline_args}}"
+      {{goquorum_cmdline_args}}
+      {{goquorum_user_cmdline_args}}
   when: goquorum_user_cmdline_args != ""
 
 - name: Show cmdline_args

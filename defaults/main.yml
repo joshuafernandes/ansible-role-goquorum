@@ -76,7 +76,7 @@ goquorum_miner_threads: "false"
 goquorum_metrics_enabled: "true"
 goquorum_metrics_host: "0.0.0.0"
 goquorum_metrics_port: 9545
-goquorum_cmdline_args: []
+goquorum_cmdline_args: ""
 # user defined list of cmd line args as a string
 goquorum_user_cmdline_args: ""
 # --ptm.timeout 5 --ptm.url $${QUORUM_PTM_URL} --ptm.http.writebuffersize 4096 --ptm.http.readbuffersize 4096 --ptm.tls.mode off \
