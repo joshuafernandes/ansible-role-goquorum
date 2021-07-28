@@ -27,7 +27,7 @@
       {{goquorum_cmdline_args}}
       --mine
       --emitcheckpoints
-      minerthreads {{ goquorum_miner_threads}}
+      --minerthreads {{ goquorum_miner_threads}}
   when: goquorum_miner_enabled|bool == True
 
 - name: Add ptm to the cmdline_args
