@@ -68,6 +68,17 @@
   when: goquorum_discovery_public_ip|bool == True
   ignore_errors: yes
 
+- name: debug
+  debug:
+    var: aws_ip_output
+
+- name: debug
+  debug:
+    var: azure_ip_output
+
+- name: debug
+  debug:
+    var: gcp_ip_output
 
 - name: Fallback to the ansible default ip
   set_fact:
